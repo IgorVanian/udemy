@@ -4,7 +4,12 @@ import { Text, View, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
-import { selectParking, deselectParking, expandDetails } from '../actions';
+import { 
+	selectParking, 
+	deselectParking, 
+	expandDetails,
+	startParkingRight 
+} from '../actions';
 import ActionButton from 'react-native-action-button';
 // import ActionButton from 'react-native-circular-action-menu';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +21,15 @@ import { PositionButton } from './PositionButton';
 import axios from 'axios';
 import Drawer from 'react-native-drawer';
 
+
+const blueLogo = require('../res/icons/prestopark-blue.png');
+const whiteLogo = require('../res/icons/prestopark.png');
+
+var actionButtonLogo = blueLogo;
+
 class MainMap extends Component {
+
+	watchID = (null: ?number);
 
 	state = {
 		parkings: [{
@@ -69,7 +82,8 @@ class MainMap extends Component {
 				price: "4 CHF"
 			}]
 		}],
-		drawerOpen: false
+		drawerOpen: false,
+		actionMenuOpen: false,
 	};
 
 	_handleBackPressInDrawer = () => {
@@ -99,14 +113,32 @@ class MainMap extends Component {
 		axios.get('http://10.0.0.27:3001/api/ParkingFacilities')
 			.then(response => console.log(response))
 			.catch(err => console.log(err));
+		
+
+		navigator.geolocation.getCurrentPosition(
+	      (position) => {
+	        var initialPosition = position;
+	        this.setState({initialPosition});
+	      	console.log("setState");
+	      },
+	      (error) => alert('Localisation désactivée', 'Veuillez activer la localisation de votre mobile afin que l\'on puisse vous géopositionner.')
+	    );
+	    this.watchID = navigator.geolocation.watchPosition((position) => {
+	      var lastPosition = position;
+	      this.setState({lastPosition});
+	    });
 	}
+
+	componentWillUnmount() {
+	    navigator.geolocation.clearWatch(this.watchID);
+  	}
 
 	componentWillUpdate() {
 		LayoutAnimation.linear();
 	}
 
 	onMarkerPress(parking) {
-			this.props.selectParking( parking );
+		this.props.selectParking( parking );
 	}
 
 	onMarkerDeselect() {
@@ -155,7 +187,7 @@ class MainMap extends Component {
 		if(!this.props.expanded) {
 			return (
 				<MapButton
-				  		onPress={this.openDrawer.bind(this)}
+				  		onPress={this.goToUserPosition.bind(this)}
 				  		style={[styles.mapButton, {
 					  			top: 10,
 					  			right: 0,
@@ -191,9 +223,36 @@ class MainMap extends Component {
 		}
 	}
 
+	actionButtonHandler() {
+		if(this.refs.actionButton.state.active) {
+			actionButtonLogo = blueLogo;
+			this.setState({
+				actionMenuOpen: false,
+			});
+		} else {
+			actionButtonLogo = whiteLogo;
+			this.setState({
+				actionMenuOpen: true,
+			});
+		}
+	}
+
+	goToUserPosition() {
+		if(this.state.lastPosition) {
+			this.refs.map.animateToCoordinate({
+					latitude: this.state.lastPosition.coords.latitude,
+					longitude: this.state.lastPosition.coords.longitude,
+			},1000);
+		}
+	}
+
+	startParkingRight() {
+		this.props.startParkingRight();
+	}
+
 	render() {
 
-		console.log(this.state.groups);
+		console.log("rendering MainMap");
 		return (
 			<Drawer
 				ref={(ref) => this._drawer = ref}
@@ -202,7 +261,7 @@ class MainMap extends Component {
 					<DrawerView />
 				}
 				tapToClose={true}
-				  openDrawerOffset={0.15} // 20% gap on the right side of drawer
+				  openDrawerOffset={0.15} // 15% gap on the right side of drawer
 				  panCloseMask={0.2}
 				  closedDrawerOffset={-3}
 				  styles={drawerStyles}
@@ -218,6 +277,7 @@ class MainMap extends Component {
 		  	>
 			<View style={styles.container}>
 				<MapView
+					ref="map"
 					showsUserLocation={true}
 					showsMyLocationButton={false}
 					loadingEnabled={true}
@@ -249,17 +309,19 @@ class MainMap extends Component {
 			  	{this.renderPositionButton()}
 			  	{this.renderFilterButton()}
 			  	<ActionButton
+			  		ref="actionButton"
 			  		offsetY={110} 
 			  		buttonColor="rgba(8,39,81,1)"
 			  		degrees={360}
-			  		icon={
-			  			<Image source={require('../res/icons/prestopark.png')} style={styles.actionButtonImage} />
-			  		}
+			  		btnOutRange="rgba(255,255,255,1)"
+			  		onPress={() => this.actionButtonHandler()}
+			  		onReset={() => this.actionButtonHandler()}
+			  		icon={<Image source={actionButtonLogo} style={styles.actionButtonImage} />}
 			  	>
-		          <ActionButton.Item buttonColor='#e84628' title="Offstreet" onPress={() => {}}>
+		          <ActionButton.Item buttonColor='#e84628' title="Ouvrir une barrière" onPress={() => {}}>
 		            <Icon name="qrcode" style={styles.actionButtonIcon} />
 		          </ActionButton.Item>
-		          <ActionButton.Item buttonColor='#cddc39' title="Onstreet" onPress={() => {}}>
+		          <ActionButton.Item buttonColor='#cddc39' title="Acheter un ticket" onPress={() => {this.startParkingRight()}}>
 		            <Image resizeMode="contain" source={require('../res/icons/onstreet.png')} style={styles.actionButtonItemImage} />
 		          </ActionButton.Item>
 		        </ActionButton>
@@ -282,7 +344,7 @@ const styles = StyleSheet.create({
  	fontSize: 20
  },
  actionButtonImage: {
- 	height: 55,
+ 	height: 45,
  	resizeMode: 'contain'
  },
  actionButtonItemImage: {
@@ -304,10 +366,17 @@ const drawerStyles = {
 
 const mapStateToProps = (state) => {
 	const { parking } = state.map;
-	const { city, location } = state.auth;
+	const { city, country, location } = state.auth;
 	const { expanded } = state.footer;
 
-	return { parking, city, location, expanded };
+	return { parking, city, country, location, expanded };
 }
 
-export default connect(mapStateToProps, { selectParking, deselectParking, expandDetails })(MainMap);
+
+
+export default connect(mapStateToProps, { 
+	selectParking, 
+	deselectParking, 
+	expandDetails,
+	startParkingRight
+})(MainMap);

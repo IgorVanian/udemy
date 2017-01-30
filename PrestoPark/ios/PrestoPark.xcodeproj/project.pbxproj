@@ -36,6 +36,7 @@
 		971C42BFB22240AFB6E44E9C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7526D92DF2774620A0734007 /* Zocial.ttf */; };
 		9F541EDA4A554BDCB9A8B5E4 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D09A7178B9444589ACDC58 /* libRNSpinkit.a */; };
 		296F77A46F5A4DCBB2F34A6D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A649CD962C8945EB895DA87D /* libBVLinearGradient.a */; };
+		C90953AF39B84347BA369F40 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C0B1945E5F43849AA0118E /* libRNSVG.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +173,8 @@
 		71D09A7178B9444589ACDC58 /* libRNSpinkit.a */ = {isa = PBXFileReference; name = "libRNSpinkit.a"; path = "libRNSpinkit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		4A5F110F1E9845F4999D1030 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A649CD962C8945EB895DA87D /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		7AF5E045CCB44D208318FA87 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; name = "RNSVG.xcodeproj"; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		D6C0B1945E5F43849AA0118E /* libRNSVG.a */ = {isa = PBXFileReference; name = "libRNSVG.a"; path = "libRNSVG.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,7 @@
 				6970582CAABE4445A93D4255 /* libRNVectorIcons.a in Frameworks */,
 				9F541EDA4A554BDCB9A8B5E4 /* libRNSpinkit.a in Frameworks */,
 				296F77A46F5A4DCBB2F34A6D /* libBVLinearGradient.a in Frameworks */,
+				C90953AF39B84347BA369F40 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +342,7 @@
 				BC4AF362A1394D629EC1FF12 /* RNVectorIcons.xcodeproj */,
 				7BE0FE99568D47F4AB34E989 /* RNSpinkit.xcodeproj */,
 				4A5F110F1E9845F4999D1030 /* BVLinearGradient.xcodeproj */,
+				7AF5E045CCB44D208318FA87 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -716,6 +722,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrestoPark.app/PrestoPark";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -801,6 +808,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -845,6 +853,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
+					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -7,7 +7,11 @@ export const LOGIN_WITHOUT_ACCOUNT = 'LOGIN_WITHOUT_ACCOUNT';
 
 export const SELECT_PARKING = 'SELECT_PARKING';
 export const DESELECT_PARKING = 'DESELECT_PARKING';
+export const START_PARKING_RIGHT = 'START_PARKING_RIGHT';
 
 export const EXPAND_DETAILS = 'EXPAND_DETAILS';
 export const HIDE_DETAILS = 'HIDE_DETAILS';
+
+// StartParkingRightActions
+export const AREA_SELECT = 'AREA_SELECT';
 

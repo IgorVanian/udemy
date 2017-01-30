@@ -65,7 +65,7 @@ class Footer extends Component {
 	}
 
 	render() {
-		const { parking, expanded, city } = this.props;
+		const { parking, expanded, city, country } = this.props;
 		console.log(parking);
 		if (parking) {
 
@@ -139,10 +139,18 @@ class Footer extends Component {
 			);
 		} else {
 			return (
-				<View style={[ styles.footer, expandedStyle(expanded), styles.container ]}>
-					<Text style={styles.cityLabel}>
-						{city}					
-					</Text>
+				<View style={[ styles.footer, expandedStyle(expanded), styles.cityContainer ]}>
+					<View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+						<Image source={require('../res/icons/city.png')} style={{ height: 50, width: 50, resizeMode: 'contain' }} />
+						<View style={{ flexDirection: 'column' }}>
+							<Text style={styles.cityLabel}>
+								{city}					
+							</Text>
+							<Text style={styles.countryLabel}>
+								{country}					
+							</Text>
+						</View>
+					</View>
 				</View>
 			);
 		}
@@ -172,6 +180,14 @@ const styles = StyleSheet.create({
    	left: 0,
    	right: 0
  },
+ cityContainer: {
+ 	flexDirection: 'row',
+ 	justifyContent: 'center',
+ 	alignItems: 'center',
+   	position: 'absolute',
+   	left: 0,
+   	right: 0
+ },
  footer: {
  	height: 85
  },
@@ -189,8 +205,11 @@ const styles = StyleSheet.create({
 	},
 	cityLabel: {
 		color: 'white',
-		fontSize: 18,
-		alignSelf: 'center'
+		fontSize: 18
+	},
+	countryLabel: {
+		color: 'white',
+		fontSize: 14
 	},
 	parkingIconStyle: {
 		color: 'white',
@@ -217,12 +236,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	const { parking } = state.map;
-	const { city, location } = state.auth;
+	const { city, country, location } = state.auth;
 	const { expanded } = state.footer;
 
 	console.log(parking);
 
-	return { parking, city, location, expanded };
+	return { parking, city, country, location, expanded };
 }
 
 export default connect(mapStateToProps, { expandDetails, hideDetails })(Footer);

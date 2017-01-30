@@ -1,7 +1,8 @@
 import { Actions } from 'react-native-router-flux';
 import { 
 	SELECT_PARKING,
-	DESELECT_PARKING
+	DESELECT_PARKING,
+	START_PARKING_RIGHT
 } from './types';
 
 export const selectParking = (parking) => {
@@ -16,3 +17,13 @@ export const deselectParking = () => {
 		type: DESELECT_PARKING
 	};
 };
+
+export const startParkingRight = () => {
+	return (dispatch) => {
+		dispatch({
+			type: START_PARKING_RIGHT
+		});
+		console.log("startParkingRight");
+		Actions.startParkingRightMain();
+	};
+}

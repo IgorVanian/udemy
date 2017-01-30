@@ -39,7 +39,7 @@ export const loginWithoutAccount = () => {
 			.then(res => {
 				const data = res.data.results[0];
 				console.log(data);
-				loginUserSuccess(dispatch, null, data.address_components[0].long_name, data.geometry.location);
+				loginUserSuccess(dispatch, null, data.address_components[0].long_name, data.address_components[3].long_name, data.geometry.location);
 		});
 	};
 }
@@ -48,10 +48,10 @@ const loginUserFail = (dispatch) => {
 	dispatch({ type: LOGIN_USER_FAIL, payload: 'Authentication Failed' });
 }
 
-const loginUserSuccess = (dispatch, user, city, location) => {
+const loginUserSuccess = (dispatch, user, city, country, location) => {
 	dispatch({
 		type: LOGIN_USER_SUCCESS,
-		payload: { user, city, location }
+		payload: { user, city, country, location }
 	});
 
 	Actions.main();

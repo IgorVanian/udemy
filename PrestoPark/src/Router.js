@@ -9,6 +9,20 @@ const RouterComponent = () => {
 
 	return (
 		<Router /* sceneStyle={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}} */ panHandlers={null}>
+			<Scene key="main">
+				<Scene 
+					key="mainMap"
+					component={MainMap}
+					hideNavBar
+					
+				/>
+				<Scene 
+					key="startParkingRightMain"
+					component={StartParkingRightMain}
+					hideNavBar
+					initial
+				/>
+			</Scene>
 			<Scene key="auth">
 				<Scene 
 					key="login"
@@ -16,19 +30,6 @@ const RouterComponent = () => {
 					title="Please Login"
 					hideNavBar
 					initial
-				/>
-			</Scene>
-			<Scene key="main">
-				<Scene 
-					key="mainMap"
-					component={MainMap}
-					hideNavBar
-					initial
-				/>
-				<Scene 
-					key="startParkingRightMain"
-					component={StartParkingRightMain}
-					hideNavBar
 				/>
 			</Scene>
 		</Router>

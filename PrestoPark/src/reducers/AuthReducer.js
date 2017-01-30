@@ -14,6 +14,7 @@ const INITIAL_STATE = {
 	error: '',
 	loading: false,
 	city: '',
+	country: '',
 	location: null
 };
 
@@ -26,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
 		case PASSWORD_CHANGED:
 			return { ...state, password: action.payload };
 		case LOGIN_USER_SUCCESS:
-			return { ...state, ...INITIAL_STATE, user: action.payload.user, city: action.payload.city, location: action.payload.location };
+			return { ...state, ...INITIAL_STATE, user: action.payload.user, city: action.payload.city, country: action.payload.country, location: action.payload.location };
 		case LOGIN_USER_FAIL:
 			return { ...state, error: action.payload, password: '', loading: false };
 		case LOGIN_USER:

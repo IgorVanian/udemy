@@ -1,6 +1,7 @@
 import { 
 	SELECT_PARKING,
-	DESELECT_PARKING
+	DESELECT_PARKING,
+	START_PARKING_RIGHT
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -15,6 +16,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, parking: action.payload.parking };
 		case DESELECT_PARKING:
 			return { ...state, ...INITIAL_STATE };
+		case START_PARKING_RIGHT:
+			return { ...state }
 		default:
 			return state;
 	}
